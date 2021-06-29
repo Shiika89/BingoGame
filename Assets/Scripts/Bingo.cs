@@ -24,7 +24,6 @@ public class Bingo : MonoBehaviour
             m_gridLayoutGroup.constraintCount = m_indexNumY;
         }
 
-        //cubes = new GameObject[m_indexNumX, m_indexNumY];
         var cubes = new Cell[m_indexNumX, m_indexNumY];
         for (int i = 0; i < m_indexNumX; i++)
         {
@@ -33,8 +32,23 @@ public class Bingo : MonoBehaviour
                 var cell = Instantiate(m_cellPrefab);
                 var parent = m_gridLayoutGroup.gameObject.transform;
                 cell.transform.SetParent(parent);
-                //cell.transform.position = new Vector3(-4 + i * 2, -3 + x * 2, 0);
                 cubes[i, x] = cell;
+            }
+        }
+
+        for (var i = 0; i < 24; i++)
+        {
+            var r = Random.Range(0, m_indexNumX);
+            var c = Random.Range(0, m_indexNumY);
+
+            var cell = cubes[r, c];
+            if (cell.CellState != CellState.Number && cubes[2, 2])
+            {
+                cell.CellState = CellState.Number; //選ばれた場所にMineがなければ生成
+            }
+            else
+            {
+                i--; //Mineがあった場合はやり直し
             }
         }
     }

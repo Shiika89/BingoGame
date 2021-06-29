@@ -5,17 +5,10 @@ using UnityEngine.UI;
 
 public enum CellState
 {
-    None = 0,
-    One = 1,
-    Two = 2,
-    Three = 3,
-    Four = 4,
-    Five = 5,
-    Six = 6,
-    Seven = 7,
-    Eight = 8,
-
-    Mine = -1,
+    None,
+    Number,
+    Open,
+    Close
 }
 
 public class Cell : MonoBehaviour
@@ -44,10 +37,9 @@ public class Cell : MonoBehaviour
         {
             m_view.text = "";
         }
-        else if (m_cellState == CellState.Mine)
+        else if (m_cellState == CellState.Open)
         {
-            m_view.text = "X";
-            m_view.color = Color.red;
+            m_view.text = "〇";
         }
         else
         {

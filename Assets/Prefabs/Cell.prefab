@@ -88,6 +88,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e28cbfc6fe5b9943b7157151a3ac1da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_view: {fileID: 8468406615647841351}
+  m_cellState: 0
 --- !u!1 &7849414870478355777
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +161,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
