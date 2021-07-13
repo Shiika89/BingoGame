@@ -9,6 +9,7 @@ public class Bingo : MonoBehaviour
     [SerializeField] private GridLayoutGroup m_gridLayoutGroup = null;
     [SerializeField] int m_indexNumX = 5;
     [SerializeField] int m_indexNumY = 5;
+    public int m_cellNumber = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -36,20 +37,29 @@ public class Bingo : MonoBehaviour
             }
         }
 
+        cubes[2, 2].CellState = CellState.Open;
+
         for (var i = 0; i < 24; i++)
         {
             var r = Random.Range(0, m_indexNumX);
             var c = Random.Range(0, m_indexNumY);
+            var k = Random.Range(1, 100);
 
             var cell = cubes[r, c];
-            if (cell.CellState != CellState.Number && cubes[2, 2])
+            if (cell.CellState != CellState.Number && cell.CellState != CellState.Open)
             {
-                cell.CellState = CellState.Number; //選ばれた場所にMineがなければ生成
-            }
+                cell.CellState = CellState.Number; //選ばれた場所にNumberがなければ生成
+                m_cellNumber = k;
+            }            
             else
             {
-                i--; //Mineがあった場合はやり直し
+                i--; //Numberがあった場合はやり直し
             }
+            ////if (cubes[2, 2].CellState == CellState.Number)
+            ////{
+            ////    cubes[2, 2].CellState = CellState.None;
+            ////    i--;
+            ////}
         }
     }
 
