@@ -73,6 +73,7 @@ public class Bingo : MonoBehaviour
     void Update()
     {
         CellCheck();
+        GetBingoCount(cubes);
     }
 
     public void CellCheck()
@@ -91,6 +92,32 @@ public class Bingo : MonoBehaviour
                 
             }
         }
+    }
+
+    private static int GetBingoCount(Cell[,] cubes)
+    {
+        int bingo = 0;
+        for (int i = 0; i < 5; i++)
+        {
+            if (cubes[i, 0].CellState == CellState.Open && cubes[i, 1].CellState == CellState.Open && cubes[i, 2].CellState == CellState.Open && cubes[i, 3].CellState == CellState.Open && cubes[i, 4].CellState == CellState.Open)
+            {
+                bingo++;
+            }
+            if (cubes[0, i].CellState == CellState.Open && cubes[1, i].CellState == CellState.Open && cubes[2, i].CellState == CellState.Open && cubes[3, i].CellState == CellState.Open && cubes[4, i].CellState == CellState.Open)
+            {
+                bingo++;
+            }
+        }
+        if (cubes[0, 0].CellState == CellState.Open && cubes[1, 1].CellState == CellState.Open && cubes[2, 2].CellState == CellState.Open && cubes[3, 3].CellState == CellState.Open && cubes[4, 4].CellState == CellState.Open)
+        {
+            bingo++;
+        }
+        if (cubes[0, 4].CellState == CellState.Open && cubes[1, 3].CellState == CellState.Open && cubes[2, 2].CellState == CellState.Open && cubes[3, 1].CellState == CellState.Open && cubes[4, 0].CellState == CellState.Open)
+        {
+            bingo++;
+        }
+        Debug.Log(bingo);
+        return bingo;
     }
 
     //周囲のセルを調べて存在すれば配列に入れる関数
