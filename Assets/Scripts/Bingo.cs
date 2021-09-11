@@ -9,6 +9,7 @@ public class Bingo : MonoBehaviour
     [SerializeField] private GridLayoutGroup m_gridLayoutGroup = null;
     [SerializeField] int m_indexNumX = 5;
     [SerializeField] int m_indexNumY = 5;
+    [SerializeField] Garagara m_ggPrefab;
     private Cell[,] cubes;
     List<int> m_maxNum = new List<int>();
     int[] m_cellNum;
@@ -59,6 +60,7 @@ public class Bingo : MonoBehaviour
                 if (y != 2 || x != 2)
                 {
                     cubes[y, x].CellState = CellState.Number;
+                    cubes[y, x].m_mynum = m_cellNum[x * 5 + y];
                     cubes[y, x].m_view.text = ((int)m_cellNum[x * 5 + y]).ToString();
                 }                
             }
@@ -70,6 +72,70 @@ public class Bingo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        CellCheck();
+    }
+
+    public void CellCheck()
+    {
+        for (int x = 0; x < m_indexNumX; x++)
+        {
+            for (int y = 0; y < m_indexNumY; y++)
+            {
+                foreach (var item in m_ggPrefab.m_openNum)
+                {
+                    if (cubes[y, x].m_mynum == item)
+                    {
+                        cubes[y, x].CellState = CellState.Open;
+                    }
+                }
+                
+            }
+        }
+    }
+
+    //周囲のセルを調べて存在すれば配列に入れる関数
+    public Cell[] SearchCell(int r, int c)
+    {
+        var list = new List<Cell>();
+
+        var left = c - 1;
+        var right = c + 1;
+        var top = r - 1;
+        var bottom = r + 1;
+
+        if (top >= 0)
+        {
+            if (left >= 0)
+            {
+                list.Add(cubes[top, left]);
+            }
+            list.Add(cubes[top, c]);
+            if (right < m_indexNumX)
+            {
+                list.Add(cubes[top, right]);
+            }
+        }
+        if (left >= 0)
+        {
+            list.Add(cubes[r, left]);
+        }
+        if (right < m_indexNumX)
+        {
+            list.Add(cubes[r, right]);
+        }
+        if (bottom < m_indexNumY)
+        {
+            if (left >= 0)
+            {
+                list.Add(cubes[bottom, left]);
+            }
+            list.Add(cubes[bottom, c]);
+            if (right < m_indexNumX)
+            {
+                list.Add(cubes[bottom, right]);
+            }
+        }
+
+        return list.ToArray();
     }
 }

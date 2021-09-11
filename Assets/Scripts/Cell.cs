@@ -14,14 +14,12 @@ public class Cell : MonoBehaviour
 {
     [SerializeField] public Text m_view = null;
     [SerializeField] private CellState m_cellState = CellState.None;
-    int m_num;
     [SerializeField] public Vector2Int m_positionCell;
+    public int m_mynum;
 
     private void Awake()
     {
-        var k = Random.Range(1, 76);
-        m_num = k;
-        Debug.Log(k);
+
     }
     public CellState CellState
     {
