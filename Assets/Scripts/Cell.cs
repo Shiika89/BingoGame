@@ -7,21 +7,21 @@ public enum CellState
 {
     None,
     Number,
-    Open,
-    Close
+    Open
 }
 
 public class Cell : MonoBehaviour
 {
-    [SerializeField] Text m_view = null;
+    [SerializeField] public Text m_view = null;
     [SerializeField] private CellState m_cellState = CellState.None;
-    GameObject m_bingoObject;
-    Bingo m_bingo;
+    int m_num;
+    [SerializeField] public Vector2Int m_positionCell;
 
-    private void Start()
+    private void Awake()
     {
-        m_bingoObject = GameObject.Find("Bingo");
-        m_bingo = m_bingoObject.GetComponent<Bingo>();
+        var k = Random.Range(1, 76);
+        m_num = k;
+        Debug.Log(k);
     }
     public CellState CellState
     {
@@ -51,7 +51,7 @@ public class Cell : MonoBehaviour
         }
         else
         {
-            m_view.text = m_bingo.m_cellNumber.ToString();
+            //m_view.text = ((int)m_num).ToString();
             m_view.color = Color.blue;
         }
     }

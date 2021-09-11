@@ -9,7 +9,26 @@ public class Bingo : MonoBehaviour
     [SerializeField] private GridLayoutGroup m_gridLayoutGroup = null;
     [SerializeField] int m_indexNumX = 5;
     [SerializeField] int m_indexNumY = 5;
-    public int m_cellNumber = 0;
+    private Cell[,] cubes;
+    List<int> m_maxNum = new List<int>();
+    int[] m_cellNum;
+
+    private void Awake()
+    {
+        m_cellNum = new int[m_indexNumX * m_indexNumY];
+
+        for (int i = 1; i < 76; i++)
+        {
+            m_maxNum.Add(i);
+        }
+
+        for (int k = 0; k < m_cellNum.Length; k++)
+        {
+            var r = Random.Range(1, m_maxNum.Count);
+            m_cellNum[k] = m_maxNum[r];
+            m_maxNum.RemoveAt(r);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -25,42 +44,27 @@ public class Bingo : MonoBehaviour
             m_gridLayoutGroup.constraintCount = m_indexNumY;
         }
 
-        var cubes = new Cell[m_indexNumX, m_indexNumY];
-        for (int i = 0; i < m_indexNumX; i++)
+        cubes = new Cell[m_indexNumX, m_indexNumY];
+
+        for (int x = 0; x < m_indexNumX; x++)
         {
-            for (int x = 0; x < m_indexNumY; x++)
+            for (int y = 0; y < m_indexNumY; y++)
             {
                 var cell = Instantiate(m_cellPrefab);
+                cell.m_positionCell = new Vector2Int(y, x);
                 var parent = m_gridLayoutGroup.gameObject.transform;
                 cell.transform.SetParent(parent);
-                cubes[i, x] = cell;
+                cubes[y, x] = cell;
+                
+                if (y != 2 || x != 2)
+                {
+                    cubes[y, x].CellState = CellState.Number;
+                    cubes[y, x].m_view.text = ((int)m_cellNum[x * 5 + y]).ToString();
+                }                
             }
         }
 
         cubes[2, 2].CellState = CellState.Open;
-
-        for (var i = 0; i < 24; i++)
-        {
-            var r = Random.Range(0, m_indexNumX);
-            var c = Random.Range(0, m_indexNumY);
-            var k = Random.Range(1, 100);
-
-            var cell = cubes[r, c];
-            if (cell.CellState != CellState.Number && cell.CellState != CellState.Open)
-            {
-                cell.CellState = CellState.Number; //選ばれた場所にNumberがなければ生成
-                m_cellNumber = k;
-            }            
-            else
-            {
-                i--; //Numberがあった場合はやり直し
-            }
-            ////if (cubes[2, 2].CellState == CellState.Number)
-            ////{
-            ////    cubes[2, 2].CellState = CellState.None;
-            ////    i--;
-            ////}
-        }
     }
 
     // Update is called once per frame
