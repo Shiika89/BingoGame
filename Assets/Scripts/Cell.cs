@@ -15,7 +15,7 @@ public class Cell : MonoBehaviour
     [SerializeField] public Text m_view = null;
     [SerializeField] private CellState m_cellState = CellState.None;
     [SerializeField] public Vector2Int m_positionCell;
-    public int m_mynum;
+    public int m_mynum; //自分の数字を覚えておくための変数
 
     private void Awake()
     {
